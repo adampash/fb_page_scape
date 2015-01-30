@@ -25,8 +25,10 @@ if ARGV.length < 3
             when '3' then 'fetch_comments'
             end
 
-  puts "What's the id of the object you're interested in?"
-  @obj_id = gets.chomp!
+  if @method == 2
+    puts "What's the id of the object you're interested in?"
+    @obj_id = gets.chomp!
+  end
 
 end
 
@@ -49,13 +51,20 @@ end
 
 def fetch_comments
   puts "Fetching and storing all of the comments"
-  i = 0
   Post.find_each do |post|
     comments = @graph.get_comments(post.fb_id)
-    comments.each do |comment|
-      puts "Saving comment ##{i += 1}"
-      Comment.create @graph.serialize_comment(comment, post.id)
+    until comments.nil?
+      save_comments(comments, post)
+      comments = comments.next_page
     end
+  end
+end
+
+@comment_count = 0
+def save_comments(comments, post)
+  comments.each do |comment|
+    puts "Saving comment ##{@comment_count += 1}"
+    Comment.create @graph.serialize_comment(comment, post.id)
   end
 end
 
