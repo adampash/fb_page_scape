@@ -1,13 +1,19 @@
 Dir["./lib/*.rb"].each {|file| require file }
 require './db/init'
 
+SECRETS = YAML::load(IO.read('config/secrets.yml'))
+
 @method = ARGV[0]
 @token = ARGV[1]
 @obj_id = ARGV[2] || "58936949405"
 
 if ARGV.length < 3
-  puts "What's your access token?"
-  @token = gets.chomp!
+  if SECRETS.nil?
+    puts "What's your access token?"
+    @token = gets.chomp!
+  else
+    @token = SECRETS['development']['token']
+  end
 
   puts "Would you like to:"
   puts "1. See a list of groups"
@@ -43,7 +49,13 @@ end
 
 def fetch_comments
   puts "Fetching and storing all of the comments"
+  i = 0
   Post.find_each do |post|
+    comments = @graph.get_comments(post.fb_id)
+    comments.each do |comment|
+      puts "Saving comment ##{i += 1}"
+      Comment.create @graph.serialize_comment(comment, post.id)
+    end
   end
 end
 
@@ -56,7 +68,7 @@ def save_posts(posts)
 end
 
 def main
-  @graph = FbGroup.new(@token)
+  @graph = FbGraph.new(@token)
   case @method
   when "get_groups"
     get_groups
