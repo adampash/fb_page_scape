@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 require_relative '../../lib/post'
 require_relative '../../lib/comment'
-require_relative '../../lib/fb_group'
+require_relative '../../lib/fb_graph'
 
 describe Comment do
 
@@ -13,7 +13,7 @@ describe Comment do
   token = SECRETS["test"]["token"]
 
   it "saves an object" do
-    @graph = FbGroup.new(token)
+    @graph = FbGraph.new(token)
     feed = @graph.get_group_feed(58936949405)
     comment = nil
     i = 0

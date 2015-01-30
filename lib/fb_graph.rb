@@ -1,6 +1,6 @@
 require 'koala'
 
-class FbGroup
+class FbGraph
   def initialize(access_token)
     @client = Koala::Facebook::API.new(access_token)
     # require 'pry'; binding.pry

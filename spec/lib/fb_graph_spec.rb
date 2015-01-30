@@ -1,16 +1,12 @@
-require_relative '../../lib/fb_group'
+require_relative '../../lib/fb_graph'
 require_relative '../spec_helper'
 
-describe FbGroup do
+describe FbGraph do
 
   token = SECRETS["test"]["token"]
 
   before :each do
-    @graph = FbGroup.new(token)
-  end
-
-  it "instantiates a client" do
-    @graph = FbGroup.new(token)
+    @graph = FbGraph.new(token)
   end
 
   it "fetches groups" do
