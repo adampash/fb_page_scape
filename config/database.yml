@@ -4,11 +4,6 @@ development:
   database: fb_scrape_data
 
 test:
-  # adapter: sqlite3
-  # host: localhost
-  # database: db/test.sqlite3
-  # pool: 5
-  # timeout: 5000
   adapter: postgresql
   host: localhost
   database: fb_scrape_dev
