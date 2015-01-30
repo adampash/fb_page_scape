@@ -59,4 +59,20 @@ describe FbGroup do
     expect(serialized_post[:fb_id]).to be_a String
   end
 
+  it "serializes a comment to store in the db", :focus => true do
+    feed = @graph.get_group_feed(58936949405)
+    comment = nil
+    i = 0
+    until !comment.nil?
+      unless feed[i]["comments"].nil?
+        post = feed[i]
+        comment = post["comments"]["data"].first
+      end
+      i += 1
+    end
+    serialized_comment = @graph.serialize_comment(comment, 1)
+    expect(serialized_comment).to be_a Hash
+    expect(serialized_comment[:fb_id]).to be_a String
+  end
+
 end

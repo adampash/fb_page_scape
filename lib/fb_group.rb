@@ -23,6 +23,10 @@ class FbGroup
     @client.get_object(id)
   end
 
+  def get_comment(id)
+    @client.get_object(id)
+  end
+
   def get_comments(id)
     @client.get_connection(id, 'comments')
   end
@@ -49,6 +53,17 @@ class FbGroup
       url:          post["actions"].first["link"],
       created_time: post["created_time"],
       updated_time: post["updated_time"],
+    }
+  end
+
+  def serialize_comment(comment, post_id)
+    {
+      post_id:      post_id,
+      fb_id:        comment["id"],
+      from_id:      comment["from"]["id"],
+      from_name:    comment["from"]["name"],
+      message:      comment["message"],
+      created_time: comment["created_time"],
     }
   end
 

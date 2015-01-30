@@ -18,5 +18,14 @@ class Schema < ActiveRecord::Migration
       t.datetime :created_time
       t.datetime :updated_time
     end
+
+    create_table :comments, force: true do |t|
+      t.integer :post_id
+      t.string :fb_id
+      t.string :from_id
+      t.string :from_name
+      t.text :message
+      t.datetime :created_time
+    end
   end
 end
